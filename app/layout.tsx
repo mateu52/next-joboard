@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Menu as Header } from "./menu/page";
+import { Header } from "../components/Header/page";
 import '../styles/globals.css'
+import styles from '../styles/layout.module.css'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className={styles.header}>
       <Header />
       {children}
     </div>
