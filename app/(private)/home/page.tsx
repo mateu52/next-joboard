@@ -16,15 +16,16 @@ type AirtableReviewResponseDto = {
 }
 const Home = () => {
     const [ reviews, setReviews ] = useState<Review[] | undefined>(undefined);
+    const [loading, setLoading] =useState(true);
     useEffect(() => {
+        const reviewsPlus: Review[] = [];
         fetch('https://api.airtable.com/v0/appZLJE69lV4Vugrp/identable?view=default',{
             headers: {
                 Authorization: `Bearer ${process.env.API_KEY}`
-            }
+            },
         })
         .then((response) => response.json())
         .then((data: AirtableReviewResponseDto) => {
-            const reviewsPlus: Review[] = [];
             data.records.forEach((elem) => {
                 reviewsPlus.push({
                     id: elem.id,
@@ -32,11 +33,15 @@ const Home = () => {
                 })
             });
             setReviews(reviewsPlus)
+            setLoading(false)
+            console.log("load ok")
         })
         .catch(error => console.log("error", error))
     },[])
     console.log(process.env.API_KEY,' hej')
     console.log(reviews, 'ok')
+    if(loading) return <p>Loading...</p>
+    if (!reviews) return <p>No profile data</p>
     return (
         <div>
         <h1>app1</h1>
